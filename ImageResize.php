@@ -63,6 +63,55 @@ class ImageResize
 
     }
 
+    public function addImageMark($path, $width = 50, $height = 50, $positionX = "right", $positionY = "bottom", $margin = 10){
+
+        $im = (new ImageResize($path, $width, $height))->getImageResource();
+
+        if (strtolower($positionX) == "right"){
+            $dstX = $this->width - $width - $margin;
+        } else {
+            $dstX = $margin;
+        }
+
+        if (strtolower($positionY) == "bottom"){
+            $dstY = $this->height - $height - $margin;
+        } else {
+            $dstY = $margin;
+        }
+
+        imagecopy($this->newResource, $im, $dstX, $dstY, 0, 0, $width, $height);
+
+    }
+
+    public function addTextMark($text, $fontSize = 5, $color = "#0000ff", $positionX = "right", $positionY = "bottom", $margin = 10){
+
+        $textWidth = imagefontwidth($fontSize) * strlen($text);
+        $textHeight = imagefontheight($fontSize);
+
+        if (strtolower($positionX) == "right"){
+            $dstX = $this->width - $textWidth - $margin;
+        } else {
+            $dstX = $margin;
+        }
+
+        if (strtolower($positionY) == "bottom"){
+            $dstY = $this->height - $textHeight - $margin;
+        } else {
+            $dstY = $margin;
+        }
+
+        $textColor = imagecolorallocate($this->newResource, hexdec($color[1].$color[2]), hexdec($color[3].$color[4]), hexdec($color[5].$color[6]));
+
+        imagestring ( $this->newResource , $fontSize, $dstX , $dstY , $text , $textColor );
+    }
+
+    public function getImageResource()
+    {
+        return $this->newResource;
+    }
+
+
+
     public function save($path, $format = null){
 
         if (is_null($format)) {
@@ -105,6 +154,3 @@ class ImageResize
         }
     }
 }
-
-$a = new ImageResize('test.jpg',170,128);
-$a->save('a.png');

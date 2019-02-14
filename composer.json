@@ -1,0 +1,13 @@
+{
+    "name": "php-quickorm/image-resize",
+    "description": "A library implemented by PHP to resize image and add water mark",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Rytia",
+            "email": "Rytia@Outlook.com"
+        }
+    ],
+    "require": {}
+}

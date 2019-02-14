@@ -1,4 +1,11 @@
 <?php
+/**
+ * Copyright (c) 2019 PHP-QuickORM ImageResize
+ * Author: Rytia Leung
+ * Email: Rytia@Outlook.com
+ * Github: github.com/php-quickorm/ImageResize
+ */
+
 class ImageResize
 {
     private $path;
@@ -10,6 +17,13 @@ class ImageResize
     private $rawResource;
     private $newResource;
 
+    /**
+     * ImageResize constructor.
+     * @param string $path
+     * @param int $width
+     * @param int $height
+     * @param string $sourceFormat
+     */
     public function __construct($path, $width = 170, $height = 128, $sourceFormat = null)
     {
 
@@ -31,6 +45,9 @@ class ImageResize
         $this->generate();
     }
 
+    /**
+     * Generate image
+     */
     private function generate(){
         // Get new sizes
         list($oldWidth, $oldHeight) = getimagesize($this->path);
@@ -63,6 +80,15 @@ class ImageResize
 
     }
 
+    /**
+     * Add water mark to image
+     * @param string $path
+     * @param int $width
+     * @param int $height
+     * @param string $positionX
+     * @param string $positionY
+     * @param int $margin
+     */
     public function addImageMark($path, $width = 50, $height = 50, $positionX = "right", $positionY = "bottom", $margin = 10){
 
         $im = (new ImageResize($path, $width, $height))->getImageResource();
@@ -83,6 +109,15 @@ class ImageResize
 
     }
 
+    /**
+     * Add text to image
+     * @param string $text
+     * @param int $fontSize
+     * @param string $color
+     * @param string $positionX
+     * @param string $positionY
+     * @param int $margin
+     */
     public function addTextMark($text, $fontSize = 5, $color = "#0000ff", $positionX = "right", $positionY = "bottom", $margin = 10){
 
         $textWidth = imagefontwidth($fontSize) * strlen($text);
@@ -105,13 +140,21 @@ class ImageResize
         imagestring ( $this->newResource , $fontSize, $dstX , $dstY , $text , $textColor );
     }
 
+    /**
+     * Get PHP GD resource
+     * @return resource
+     */
     public function getImageResource()
     {
         return $this->newResource;
     }
 
 
-
+    /**
+     * Save the image as file
+     * @param string $path
+     * @param null $format
+     */
     public function save($path, $format = null){
 
         if (is_null($format)) {
@@ -137,6 +180,9 @@ class ImageResize
 
     }
 
+    /**
+     * Send HTTP Response
+     */
     public function render(){
         switch ($this->extension){
             case 'jpg' :

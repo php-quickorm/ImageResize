@@ -9,5 +9,8 @@
             "email": "Rytia@Outlook.com"
         }
     ],
-    "require": {}
+    "require": {},
+    "autoload": {
+        "files": ["ImageResize.php"]
+    }
 }
